@@ -1,15 +1,10 @@
+Astyanax with additional metrics and reporting
+-----------------------------------------------
+Some of the popular Cassandra Java Clients are Hector, Astyanax and Java driver. 
 
-Astyanax with Metrics and Reporting
----------------------------------------
----------------------------------------
+Astyanax lacks following features wrt Java Driver
 
-Astyanax lacks following features 
----------------------------------
----------------------------------
-
- - Asynchronous: Astyanax uses thrift protocol which does not support asynchronous
-  capabilities unlike binary protocol of java driver using which relatively low number
-  of connections per nodes needs to be maintained open to achieve good performance. 
+* Asynchronous: Astyanax uses thrift protocol which does not support asynchronous capabilities unlike binary protocol of java driver using which relatively low number of connections per nodes needs to be maintained open to achieve good performance. 
  
  - Cassandra Query Tracing : Query trace is not implemented in astyanax. which can be 
   implemented if we can Get randomly generated UUID from  sessions and events table in 
