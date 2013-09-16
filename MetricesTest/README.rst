@@ -134,8 +134,8 @@ Code Description
 
 * Metrics is a toolkit available at "http://metrics.codahale.com/"
 
-Add Maven dependency:
----------------------
+* Add Maven dependency:
+
 <dependencies>
     <dependency>
         <groupId>com.codahale.metrics</groupId>
@@ -157,19 +157,14 @@ pool configuration . Gauge is used to store values returned by connection pool m
 so that it can be stored inside metric registry. This metric registry is being used by JMX reporter to expose metrics via
 Console reporter and CSV reporter. 
 
--> Slf4j reporter can also be implemented using following line of code.
+* Slf4j reporter can also be implemented using following line of code.
 
-/*
 final Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
                                             .outputTo(LoggerFactory.getLogger("com.zscaler.cassandra.astyanax.metrics"))
                                             .convertRatesTo(TimeUnit.SECONDS)
                                             .convertDurationsTo(TimeUnit.MILLISECONDS)
                                             .build();
 reporter.start(1, TimeUnit.MINUTES);
-  
-*/
-
-
 
 * Connection class is used for making connection to cassandra host using astyanax.
 * ConnectionPoolConfigurationMetrics implemented to hold value returned by gauge inside Metric Registry
@@ -187,24 +182,22 @@ Store gauge value in Metric registry
 --------------------------------------------
 
  private final MetricsRegistry registry = new MetricsRegistry();
-	
-		
-	 
-	 AstyanaxContext<Keyspace> context=Connection.start(input host address to make connection with astyanax i.e. localhost, amazon aws);
-	 private final Gauge<Integer> PortNumber = registry.newGauge(ConnectionPoolConfigurationMetrics.class, "PortNumber", new Gauge<Integer>() {
-	        @Override
-	        public Integer value() {
-	            return  contextcpcm.getConnectionPoolConfiguration().getPort();
-	        }
-	    });
+ 
+ AstyanaxContext<Keyspace> context = Connection.start(input host address to make connection with astyanax i.e. localhost, amazon aws);
+ private final Gauge<Integer> PortNumber = registry.newGauge(ConnectionPoolConfigurationMetrics.class, "PortNumber", new Gauge<Integer>() 
+ @Override
+ public Integer value() 
+ {
+ return  contextcpcm.getConnectionPoolConfiguration().getPort();
+ }
+ });
 
 Exposed Metrics using JMX reporter (Console)
 ---------------------------------------------- 
 
- MetricsRegistry registry=new ConnectionPoolMetrics().getRegistry();  
+ MetricsRegistry registry = new ConnectionPoolMetrics().getRegistry();  
 		 JmxReporter jmxReportermonit = new JmxReporter(registry);
 		 jmxReportermonit.start();
-		 
 		 
 	// used to display results on console	 
 		 com.yammer.metrics.reporting.ConsoleReporter.enable(registry, 1, TimeUnit.SECONDS);	    
@@ -213,7 +206,7 @@ Exposed Metrics using JMX reporter (Console)
 Exposed Metrics using JMX reporter (CSV reporter)
 ---------------------------------------------- 
 
- MetricsRegistry registry=new ConnectionPoolMetrics().getRegistry();  
+ MetricsRegistry registry = new ConnectionPoolMetrics().getRegistry();  
 		 JmxReporter jmxReportermonit = new JmxReporter(registry);
 		 jmxReportermonit.start();
 		 
