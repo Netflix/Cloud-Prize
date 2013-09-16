@@ -4,8 +4,8 @@ Some of the popular Cassandra Java Clients are Hector, Astyanax and Java driver.
 Datastax Java Driver is the only client driver supporting it as of now. Hector, Astyanax and Java Driver all support Thrift.
 This is an effort to provide more functionality to astyanax by including some server side metrics to the Astyanax client.
 
-Here is a brief Comparison of Astyanax wrt the Java Driver
-----------------------------------------------------------
+Brief Comparison of Astyanax wrt the Java Driver
+------------------------------------------------
 
 In addition to supporting CQL3 Java driver has a multitude of features which the Astyanax driver does not provide as of now.
 Here is a brief overview.
@@ -32,26 +32,21 @@ Here is a brief overview.
   the Node is down due to DC issues, in such situation java driver provides retry after a constant
   time and exponential back off strategy (increase the retrying time exponentially ).
   This feature is not supported by astyanax yet.
+  
+* Retry Policies : Astyanax does not support retry policy unlike java driver which supports a
+  default retry policy (never retry with different consistency level ), downgrading consistency 
+  retry policy (keeps on decreasing the consistency level upto a certain level), Fallthrough
+  retry policy (rethrow the exception) and logging retry policy (parent policy for other policies
+  which also provides logging).
  
- - Retry Policies :Astyanax does not support retry policy unlike java driver which support
- Default retry policy (never retry with different consistency level ),downgrading consistency 
- retry policy(keeps on decreasing the consistency level upto a certain level), Fallthrough
- retry policy ( rethrow the exception ) and logging retry policy( parent policy for other 
- policies ,provide logging ).
- 
- - Metrics and Reporting : Metrics and reporting can be implemented using Metrics library which are
- exposed through JMX . these metrics might be useful for reporting purposes in production environment
-(metrics can be exposed using csv reporter(will be stored in csv files) , console reporter (displayed on
-console ) , slf4jreporter(stored in log files )  )
+* Metrics and Reporting : Metrics and reporting can be implemented using Metrics library which are
+  exposed through JMX . These metrics might be useful for reporting and debugging purposes in a production
+  environment (metrics can be exposed using csv reporter, console reporter, slf4jreporter)
 
 
 
-Feature Implemented 
-------------------------------------
-
-Astyanax Metrics and Reporting with JMX reporter
--------------------------------------------------
--------------------------------------------------
+Feature Implemented : Astyanax Metrics and Reporting with JMX reporter 
+----------------------------------------------------------------------
 
 Metrics is a toolkit available at "http://metrics.codahale.com/"
 
