@@ -1,27 +1,37 @@
 Astyanax with additional metrics and reporting
 -----------------------------------------------
-Some of the popular Cassandra Java Clients are Hector, Astyanax and Java driver. 
+Some of the popular Cassandra Java Clients are Hector, Astyanax and Java driver. The industry is moving towards CQL3 and
+Datastax Java Driver is the only client driver supporting it as of now. Hector, Astyanax and Java Driver all support Thrift.
+This is an effort to provide more functionality to astyanax by including some server side metrics to the Astyanax client.
 
-Astyanax lacks following features wrt Java Driver
+Here is a brief Comparison of Astyanax wrt the Java Driver
+----------------------------------------------------------
 
-* Asynchronous: Astyanax uses thrift protocol which does not support asynchronous capabilities unlike binary protocol of java driver using which relatively low number of connections per nodes needs to be maintained open to achieve good performance. 
- 
- - Cassandra Query Tracing : Query trace is not implemented in astyanax. which can be 
-  implemented if we can Get randomly generated UUID from  sessions and events table in 
-  system_trace keyspaces inside cassandra and implement code for 
+In addition to supporting CQL3 Java driver has a multitude of features which the Astyanax driver does not provide as of now.
+Here is a brief overview.
+
+* Asynchronous: Astyanax uses thrift protocol which does not support asynchronous capabilities
+  unlike binary protocol of java driver. Binary protocol needs to maintain a relatively low number
+  of connections per node open to achieve good performance.
+
+* Cassandra Query Tracing : Query tracing is not implemented in astyanax. which can be 
+  easily implemented if we can get access to the sessions and events table in system_trace
+  keyspaces inside cassandra. Simple CQL statements like the ones mentioned below should give
+  access to Query tracing.
+  
   select * from system_trace.sessions where session_id="Random UUID per query";
   select * from system_trace.events where session_id="Random UUID per query";  
   
- -Load balancing policy : Astyanax does not support configurable load balancing policy 
- unlike java driver using which we can implement Round robin policy(by default ),
- Data-center aware (local data-center nodes to be provided, which will discover
- remote data-center using gossip protocol ) and Token aware policy( token range needs to 
- be provided through configuration).  
+* Load balancing policy : Astyanax supports a configurable load balancing policy where can
+  implement Round robin policy (by default), Token aware routing (token range needs to 
+  be provided through Priam and Eureka) but does not support Data-center aware load balancing
+  (local data-center nodes to be provided, which will discover remote data-center using gossip
+  protocol ).  
  
- -Reconnection policies :If there is any connection error i.e  due to time out exception ,
- Node down .is such situation java driver provides constant(retry after constant time)
- and exponential back off strategy (increase the retrying time exponentially ).
- This feature is not supported by astyanax yet.
+* Reconnection policies : If there is any connection error i.e  due to time out exception, or
+  the Node is down due to DC issues, in such situation java driver provides retry after a constant
+  time and exponential back off strategy (increase the retrying time exponentially ).
+  This feature is not supported by astyanax yet.
  
  - Retry Policies :Astyanax does not support retry policy unlike java driver which support
  Default retry policy (never retry with different consistency level ),downgrading consistency 
